@@ -1,4 +1,4 @@
-angular.module('pin', []).factory('PinService', function ($q, $rootScope, $ionicLoading, $ionicPopup) {
+angular.module('pin', ['Toast']).factory('PinService', function ($q, $rootScope, $ionicLoading, $ionicPopup, Toast) {
     
     var PIN_LIFE = 5 * 60 * 1000; // pin entry lives five minutes
     var PIN_PREFS_KEY = 'mip_pin';
@@ -18,10 +18,11 @@ angular.module('pin', []).factory('PinService', function ($q, $rootScope, $ionic
             
             plugins.appPreferences.store(
                 function(pin){
-                    alert('success saving pin');
+                    console.log('success saving pin');
+                    Toast.show('PIN saved!');
                 },
                 function(err){
-                    alert('error saving pin');
+                    console.log('error saving pin');
                 },
                 PIN_PREFS_KEY, pin
             );
@@ -49,6 +50,8 @@ angular.module('pin', []).factory('PinService', function ($q, $rootScope, $ionic
               },
             ]
         });
+        
+        cordova.plugins.Keyboard.show();
 
         return def.promise;
     }
@@ -109,6 +112,8 @@ angular.module('pin', []).factory('PinService', function ($q, $rootScope, $ionic
               },
             ]
         });
+
+        cordova.plugins.Keyboard.show();
 
         return def.promise;
     }
